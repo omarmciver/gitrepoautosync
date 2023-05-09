@@ -11,6 +11,7 @@
 *.userosscache
 *.sln.docstates
 .secret
+*.secret*
 
 reposync
 

@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: reposync
+spec:
+  schedule: "0/2 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 10
+  jobTemplate:
+    spec:   
+      template:
+        metadata:
+          name: reposync
+        spec:
+          containers:
+          - name: syncrepo1
+            image: omarmciver/gitrepoautosync:latest
+            args: ["REPONAME2", "BRANCHNAME", "https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/REPONAME", "https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME"]
+          
+          - name: syncrepo2
+            image: omarmciver/gitrepoautosync:latest
+            args: ["REPONAME2", "BRANCHNAME", "https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/REPONAME2", "https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME2"]
+
+          restartPolicy: OnFailure
