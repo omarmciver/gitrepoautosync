@@ -1,0 +1,6 @@
+version: '3'
+services:
+  gitrepoautosync:
+    image: gitrepoautosync_devcontainer 
+    build:
+      dockerfile: ./Dockerfile

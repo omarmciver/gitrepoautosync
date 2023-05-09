@@ -1,0 +1,27 @@
+// See https://aka.ms/vscode-remote/devcontainer.json
+{
+  "name": "gitrepoautosync",
+  "service": "gitrepoautosync",
+  "workspaceFolder": "/code/",
+  "dockerComposeFile": "docker-compose.yml",
+  "mounts": [
+    {
+      "source": "..",
+      "target": "/code/",
+      "type": "bind"
+    }
+  ],
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.path-intellisense",
+        "redhat.vscode-yaml",
+        "donjayamanne.git-extension-pack",
+        "streetsidesoftware.code-spell-checker",
+        "redhat.vscode-xml"
+      ]
+    }
+  }
+}
