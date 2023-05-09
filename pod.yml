@@ -16,3 +16,4 @@ spec:
         image: devopscube/kubernetes-job-demo:latest         
         args: ["100"]       
       restartPolicy: Never
+      
