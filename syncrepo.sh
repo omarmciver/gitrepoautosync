@@ -22,10 +22,10 @@ cd $reponame || { exit 1; }
 
 if ! [ -z "${sshkeybase64}" ]; then
     echo "SSH Key provided" 
-    echo "${sshkeybase64}" | base64 -d > ~/.ssh/git_${reponame}_rsa
-    chmod 700 ~/.ssh/git_${reponame}_rsa
-    cat ~/.ssh/git_${reponame}_rsa
-    ssh-add ~/.ssh/git_${reponame}_rsa
+    echo "${sshkeybase64}" | base64 -d > /tmp/git_${reponame}_rsa
+    chmod 700 /tmp/git_${reponame}_rsa
+    cat /tmp/git_${reponame}_rsa
+    ssh-add /tmp/git_${reponame}_rsa
 fi
 
 echo "Cloning $reponame from $origin1..."
