@@ -15,11 +15,6 @@ echo "===== Syncing $reponame ($branchname) between $origin1 and $origin2 ====="
 git config --global credential.useHttpPath true
 git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
 
-## $1 = Repo name
-## $2 = Branch name
-## $3 = Origin1|SSH Private Key base 64 encoded (if applicable)
-## $4 = Origin2|SSH Private Key base 64 encoded (if applicable)
-
 echo "Creating empty folder for $reponame..."
 rm -rf $reponame
 mkdir $reponame
@@ -29,7 +24,7 @@ if ! [ -z "${sshkeybase64}" ]; then
     echo "SSH Key provided" 
     echo "${sshkeybase64}" | base64 -d > ~/.ssh/git_${reponame}_rsa
     chmod 700 ~/.ssh/git_${reponame}_rsa
-    # cat ~/.ssh/git_${reponame}_rsa
+    cat ~/.ssh/git_${reponame}_rsa
     ssh-add ~/.ssh/git_${reponame}_rsa
 fi
 
