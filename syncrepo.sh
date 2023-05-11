@@ -15,18 +15,18 @@ echo "===== Syncing $reponame ($branchname) between $origin1 and $origin2 ====="
 git config --global credential.useHttpPath true
 git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
 
+if ! [ -z "${sshkeybase64}" ]; then
+    echo "SSH Key provided" 
+    echo "${sshkeybase64}" | base64 -d > ~/.ssh/git_${reponame}_rsa
+    chmod 700 ~/.ssh/git_${reponame}_rsa
+    cat ~/.ssh/git_${reponame}_rsa
+    ssh-add ~/.ssh/git_${reponame}_rsa
+fi
+
 echo "Creating empty folder for $reponame..."
 rm -rf $reponame
 mkdir $reponame
 cd $reponame || { exit 1; }
-
-if ! [ -z "${sshkeybase64}" ]; then
-    echo "SSH Key provided" 
-    echo "${sshkeybase64}" | base64 -d > /tmp/git_${reponame}_rsa
-    chmod 700 /tmp/git_${reponame}_rsa
-    cat /tmp/git_${reponame}_rsa
-    ssh-add /tmp/git_${reponame}_rsa
-fi
 
 echo "Cloning $reponame from $origin1..."
 git clone $origin1 . || { exit 1; }
