@@ -16,6 +16,7 @@ git config --global credential.useHttpPath true
 git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
 
 if ! [ -z "${sshkeybase64}" ]; then
+    eval `ssh-agent -s`
     echo "SSH Key provided..."
     echo "${sshkeybase64}" | base64 -d > /tmp/git_rsa
     echo "Setting SSH Key file permissions..."
