@@ -16,11 +16,13 @@ git config --global credential.useHttpPath true
 git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
 
 if ! [ -z "${sshkeybase64}" ]; then
-    echo "SSH Key provided" 
-    echo "${sshkeybase64}" | base64 -d > ~/.ssh/git_${reponame}_rsa
-    chmod 700 ~/.ssh/git_${reponame}_rsa
-    cat ~/.ssh/git_${reponame}_rsa
-    ssh-add ~/.ssh/git_${reponame}_rsa
+    echo "SSH Key provided..."
+    echo "${sshkeybase64}" | base64 -d > /tmp/git_rsa
+    echo "Setting SSH Key file permissions..."
+    chmod 700 /tmp/git_rsa
+    cat /tmp/git_rsa
+    echo "Registering SSH Key..."
+    ssh-add /tmp/git_rsa
 fi
 
 echo "Creating empty folder for $reponame..."
