@@ -22,19 +22,32 @@ spec:
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 10
   jobTemplate:
-    spec:   
+    spec:
       template:
         metadata:
           name: reposync
         spec:
           containers:
-          - name: syncrepo1
-            image: omarmciver/gitrepoautosync:latest
-            args: ["REPONAME2", "BRANCHNAME", "https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/REPONAME", "https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME"]
-          
-          - name: syncrepo2
-            image: omarmciver/gitrepoautosync:latest
-            args: ["REPONAME2", "BRANCHNAME", "https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/REPONAME2", "https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME2"]
+            - name: syncrepo1
+              image: omarmciver/gitrepoautosync:latest
+              args:
+                [
+                  "reponame=REPONAME",
+                  "branchname=BRANCHNAME",
+                  "origin1=https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/REPONAME",
+                  "origin2=https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME"
+                ]
 
-          restartPolicy: OnFailure
+            - name: syncrepo2
+              image: omarmciver/gitrepoautosync:latest
+              args:
+                [
+                 "reponame=REPONAME",
+                  "branchname=BRANCHNAME",
+                  "origin1=git@ssh.dev.azure.com:v3/ORGNAME/PROJECTNAME/REPONAME2",
+                  "origin2=https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME"
+                  "sshkeybase64=<sshPrivateKeyBase64Encoded>",
+                ]
+
+          restartPolicy: Never
 ```

@@ -1,4 +1,17 @@
 #!/bin/bash
+
+
+for ARGUMENT in "$@"
+do
+   KEY=$(echo $ARGUMENT | cut -f1 -d=)
+   KEY_LENGTH=${#KEY}
+   VALUE="${ARGUMENT:$KEY_LENGTH+1}"
+   export "$KEY"="$VALUE"
+done
+
+echo "===== Syncing $reponame ($branchname) between $origin1 and $origin2 ====="
+# echo $sshkeybase64
+
 git config --global credential.useHttpPath true
 git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
 
@@ -6,36 +19,18 @@ git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
 ## $2 = Branch name
 ## $3 = Origin1|SSH Private Key base 64 encoded (if applicable)
 ## $4 = Origin2|SSH Private Key base 64 encoded (if applicable)
-reponame="$1"
-branchname="$2"
-origin1="$3"
-origin2="$4"
 
 echo "Creating empty folder for $reponame..."
 rm -rf $reponame
 mkdir $reponame
 cd $reponame || { exit 1; }
 
-if [[ "$origin1" == *"|"* ]]; then
-    echo "SSH Key for Origin 1" 
-    IFS='|'
-    read -a strarr <<< "$origin1"
-    echo "${strarr[1]}" | base64 -d > ~/.ssh/id_rsa1
-    chmod 700 ~/.ssh/id_rsa1
-    cat ~/.ssh/id_rsa1
-    ssh-add ~/.ssh/id_rsa1
-    origin1="${strarr[0]}"
-fi
-
-if [[ "$origin2" == *"|"* ]]; then
-    echo "SSH Key for Origin 2"
-    IFS='|'
-    read -a strarr <<< "$origin2"
-    echo "${strarr[1]}" | base64 -d > ~/.ssh/id_rsa2
-    chmod 700 ~/.ssh/id_rsa2
-    cat ~/.ssh/id_rsa2
-    ssh-add ~/.ssh/id_rsa1
-    origin2="${strarr[0]}"
+if ! [ -z "${sshkeybase64}" ]; then
+    echo "SSH Key provided" 
+    echo "${sshkeybase64}" | base64 -d > ~/.ssh/git_${reponame}_rsa
+    chmod 700 ~/.ssh/git_${reponame}_rsa
+    # cat ~/.ssh/git_${reponame}_rsa
+    ssh-add ~/.ssh/git_${reponame}_rsa
 fi
 
 echo "Cloning $reponame from $origin1..."
@@ -58,3 +53,5 @@ git push origin $branchname || { exit 1; }
 
 echo "Push $branchname from $origin2..."
 git push origin2 $branchname || { exit 1; }
+
+echo "===== Completed sync of $reponame ($branchname) between $origin1 and $origin2 ====="
