@@ -1,8 +1,12 @@
 #!/bin/bash
 
-ssh-keygen -t rsa #-b 4096
-public=`cat ~/.ssh/id_rsa.pub`
-private=`cat ~/.ssh/id_rsa | base64 | tr -d '\n'`
+openssl genrsa -out privatekey 2048
+public=`ssh-keygen -y -f privatekey`
+private=`cat privatekey | base64 | tr -d '\n'`
+
+# echo $public
+# echo $private
+# cat privatekey
 
 echo "Register this public key with DevOps...."
 echo ""
@@ -13,7 +17,7 @@ echo ""
 echo ""
 echo ""
 
-echo "Use this enoded private key with the container...."
+echo "Use this encoded private key with the container...."
 echo ""
 echo ""
 echo ""
