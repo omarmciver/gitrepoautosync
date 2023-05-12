@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh-keygen -t rsa -b 4096
+ssh-keygen -t rsa #-b 4096
 public=`cat ~/.ssh/id_rsa.pub`
 private=`cat ~/.ssh/id_rsa | base64 | tr -d '\n'`
 
