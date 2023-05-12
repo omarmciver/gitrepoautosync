@@ -13,7 +13,7 @@ echo "===== Syncing $reponame ($branchname) between $origin1 and $origin2 ====="
 # echo $sshkeybase64
 
 git config --global credential.useHttpPath true
-git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no'
+git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no -oHostKeyAlgorithms=+ssh-rsa'
 
 if ! [ -z "${sshkeybase64}" ]; then
     eval `ssh-agent -s`
