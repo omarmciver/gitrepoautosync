@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: {{ $.Release.Name }}
+  name: {{ $.Release.Name }}-gitautoreposync
+spec:
+  schedule: {{ $.Values.schedule}}
+  successfulJobsHistoryLimit: {{ $.Values.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $.Values.failedJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: {{ $.Release.Name }}-gitautoreposync
+        spec:
+          restartPolicy: {{ $.Values.restartPolicy }}
+          containers:
+{{- range $.Values.repositories }}
+  {{- $repoName :=  .name }}
+  {{- $branches :=  $.Values.defaultBranches }}
+  {{- if .branches }}
+    {{- $branches =  .branches }}
+  {{- end }}
+
+  {{- range $branches }}
+          - name: {{ $repoName }}
+            image: omarmciver/gitrepoautosync:latest
+            args:
+              [ 
+                "reponame={{ $repoName }}",
+                "branchname={{ .name }}",
+                {{- if $.Values.privateSshKeyBase64 }}
+                "sshkeybase64={{ $.Values.privateSshKeyBase64 }}",
+                {{- end }}
+                "origin1={{ $.Values.gitRepoOrigin1BaseUrl }}{{ $repoName }}",
+                "origin2={{ $.Values.gitRepoOrigin2BaseUrl }}{{ $repoName }}"
+                ]
+  {{- end }}
+{{- end }}

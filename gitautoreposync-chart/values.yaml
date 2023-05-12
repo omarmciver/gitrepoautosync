@@ -1,0 +1,24 @@
+schedule: "0/10 * * * *"
+successfulJobsHistoryLimit: 1
+failedJobsHistoryLimit: 5
+gitRepoOrigin1BaseUrl: "git@ssh.dev.azure.com:v3/ORGNAME/PROJECTNAME/"
+gitRepoOrigin2BaseUrl: "https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/"
+restartPolicy: Never
+privateSshKeyBase64: null #"override with --set argument when deploying. Base64 encode your private SSL for the SSH connection. Do not commit a secret!"
+
+# What branches should be synced if none are defined
+defaultBranches:
+  - name: develop
+  - name: main
+
+# WHat repos should be synced
+repositories:
+  - name: "repo1"
+    # Example override of default branches
+    branches:
+      - name: main
+      - name: Dev
+      - name: feature1
+  
+  - name: "repo2"
+  - name: "repo3"

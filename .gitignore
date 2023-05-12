@@ -12,6 +12,7 @@
 *.sln.docstates
 .secret
 *.secret*
+dryrun.yml
 
 reposync
 privatekey

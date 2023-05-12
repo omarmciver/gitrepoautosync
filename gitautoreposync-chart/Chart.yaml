@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gitautoreposync
+description: Deploys a git auto repo sync as developed by Omar McIver at https://github.com/omarmciver/gitrepoautosync
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

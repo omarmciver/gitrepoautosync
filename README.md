@@ -10,6 +10,17 @@
 docker run -it --rm git <reponame> <branchname> https://<orgname>:<PAT_token>@dev.azure.com/<OrgName>/<projectname>/_git/<reponame> https://<otherOrgName>:<Other_PAT_Token>@dev.azure.com/<otherOrgName>/<other_projectname>/_git/<reponame>
 ```
 
+## Helm commands
+
+Local dry run
+`helm template --debug --dry-run reposync ./gitautoreposync-chart > dryrun.yml`
+
+Local source install
+`helm upgrade --install --values ./values.yml reposync ./gitautoreposync-chart --set privateSshKeyBase64=xxxxxxx`
+
+Remote source install
+`helm upgrade --install --values ./values.yml reposync oci://usdaoars.azurecr.io/helm/oars --version 1.0.0 --set privateSshKeyBase64=xxxxxxx`
+
 ## Example Cron
 
 ```yml
