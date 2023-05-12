@@ -18,13 +18,13 @@ git config --global core.sshCommand 'ssh -vvvv -o StrictHostKeyChecking=no -oHos
 if ! [ -z "${sshkeybase64}" ]; then
     eval `ssh-agent -s`
     echo "SSH Key provided..."
-    echo "${sshkeybase64}" | base64 -d > /tmp/git_rsa
+    echo "${sshkeybase64}" | base64 -d > ~/.ssh/id_rsa
     echo "Setting SSH Key file permissions..."
-    chmod 700 /tmp/git_rsa
+    chmod 700 ~/.ssh/id_rsa
     echo "End of cert:"
-    cat /tmp/git_rsa | tr -d '\n' | rev | cut -c-100 | rev
+    cat ~/.ssh/id_rsa | tr -d '\n' | rev | cut -c-100 | rev
     echo "Registering SSH Key..."
-    ssh-add /tmp/git_rsa
+    ssh-add ~/.ssh/id_rsa
 fi
 
 echo "Creating empty folder for $reponame..."
