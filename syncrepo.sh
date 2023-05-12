@@ -13,18 +13,19 @@ echo "===== Syncing $reponame ($branchname) between $origin1 and $origin2 ====="
 # echo $sshkeybase64
 
 git config --global credential.useHttpPath true
-git config --global core.sshCommand 'ssh -vvvv -o StrictHostKeyChecking=no -oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+rsa-sha2-256,rsa-sha2-512'
+git config --global core.sshCommand 'ssh  -o StrictHostKeyChecking=no -oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+rsa-sha2-256,rsa-sha2-512'
 
 if ! [ -z "${sshkeybase64}" ]; then
     eval `ssh-agent -s`
     echo "SSH Key provided..."
-    echo "${sshkeybase64}" | base64 -d > ~/.ssh/id_rsa
+    mkdir ~/.ssh
+    echo "${sshkeybase64}" | base64 -d > ~/.ssh/id_rsa || { exit 1; }
     echo "Setting SSH Key file permissions..."
-    chmod 700 ~/.ssh/id_rsa
+    chmod 700 ~/.ssh/id_rsa || { exit 1; }
     echo "End of cert:"
     cat ~/.ssh/id_rsa | tr -d '\n' | rev | cut -c-100 | rev
     echo "Registering SSH Key..."
-    ssh-add ~/.ssh/id_rsa
+    ssh-add ~/.ssh/id_rsa || { exit 1; }
 fi
 
 echo "Creating empty folder for $reponame..."
