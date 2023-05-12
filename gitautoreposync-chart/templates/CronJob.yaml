@@ -23,7 +23,7 @@ spec:
   {{- end }}
 
   {{- range $branches }}
-          - name: {{ $repoName }}-{{ .name }}
+          - name: {{ $repoName | lower  }}-{{ .name | lower  }}
             image: omarmciver/gitrepoautosync:latest
             args:
               [ 
