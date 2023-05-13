@@ -13,9 +13,13 @@ echo "===== Syncing $reponame ($branchname) between $origin1 and $origin2 ====="
 # echo $sshkeybase64
 
 git config --global credential.useHttpPath true
-git config --global core.sshCommand 'ssh -v -o StrictHostKeyChecking=no -oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+rsa-sha2-256,rsa-sha2-512'
+git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no -oHostKeyAlgorithms=+ssh-rsa'
 
 if ! [ -z "${sshkeybase64}" ]; then
+    
+    echo "Host ${sshhost}" > ~/.ssh/config
+    echo "  PubkeyAcceptedKeyTypes=ssh-rsa" >> ~/.ssh/config
+
     eval `ssh-agent -s`
     echo "SSH Key provided..."
     mkdir ~/.ssh
@@ -55,3 +59,5 @@ echo "Push $branchname from $origin2..."
 git push origin2 $branchname || { exit 1; }
 
 echo "===== Completed sync of $reponame ($branchname) between $origin1 and $origin2 ====="
+cd ..
+rm -rf $reponame

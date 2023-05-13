@@ -17,6 +17,7 @@ dryrun.yml
 reposync
 privatekey
 publickey
+testcmds
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -7,7 +7,7 @@
 ## Local run image
 
 ```bash
-docker run -it --rm git <reponame> <branchname> https://<orgname>:<PAT_token>@dev.azure.com/<OrgName>/<projectname>/_git/<reponame> https://<otherOrgName>:<Other_PAT_Token>@dev.azure.com/<otherOrgName>/<other_projectname>/_git/<reponame>
+
 ```
 
 ## Helm commands
@@ -58,6 +58,7 @@ spec:
                   "origin1=git@ssh.dev.azure.com:v3/ORGNAME/PROJECTNAME/REPONAME2",
                   "origin2=https://ORGNAME2:PAT_TOKEN2@dev.azure.com/ORGNAME2/PROJECTNAME2/_git/REPONAME"
                   "sshkeybase64=<sshPrivateKeyBase64Encoded>",
+                  "sshhost=ssh.dev.azure.com"
                 ]
 
           restartPolicy: Never
