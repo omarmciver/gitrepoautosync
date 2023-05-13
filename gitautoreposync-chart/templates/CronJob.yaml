@@ -1,8 +1,15 @@
+{{- range $.Values.repositories }}
+  {{- $repoName :=  .name }}
+  {{- $branches :=  $.Values.defaultBranches }}
+  {{- if .branches }}
+    {{- $branches =  .branches }}
+  {{- end }}
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   namespace: {{ $.Release.Name }}
-  name: {{ $.Release.Name }}-gitautoreposync
+  name: {{ $.Release.Name }}-{{ $repoName | lower  }}
 spec:
   schedule: {{ $.Values.schedule}}
   successfulJobsHistoryLimit: {{ $.Values.successfulJobsHistoryLimit }}
@@ -12,19 +19,12 @@ spec:
       backoffLimit: 3
       template:
         metadata:
-          name: {{ $.Release.Name }}-gitautoreposync
+          name: {{ $.Release.Name }}-{{ $repoName | lower  }}
         spec:
           restartPolicy: {{ $.Values.restartPolicy }}
           containers:
-{{- range $.Values.repositories }}
-  {{- $repoName :=  .name }}
-  {{- $branches :=  $.Values.defaultBranches }}
-  {{- if .branches }}
-    {{- $branches =  .branches }}
-  {{- end }}
-
   {{- range $branches }}
-          - name: {{ $repoName | lower  }}-{{ .name | lower  }}
+          - name: {{ .name | lower  }}
             image: omarmciver/gitrepoautosync:latest
             args:
               [ 
