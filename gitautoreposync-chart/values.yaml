@@ -4,6 +4,7 @@ failedJobsHistoryLimit: 5
 gitRepoOrigin1BaseUrl: "git@ssh.dev.azure.com:v3/ORGNAME/PROJECTNAME/"
 gitRepoOrigin2BaseUrl: "https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJECTNAME/_git/"
 restartPolicy: Never
+sshHost: "aap00va3dopsp1.usda.net"
 privateSshKeyBase64: null #"override with --set argument when deploying. Base64 encode your private SSL for the SSH connection. Do not commit a secret!"
 
 # What branches should be synced if none are defined
