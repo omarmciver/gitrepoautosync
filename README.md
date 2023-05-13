@@ -7,7 +7,13 @@
 ## Local run image
 
 ```bash
-
+docker run --rm reposync `
+ reponame=helm-charts `
+ branchname=main `
+ origin1=https://ORGNAME:PAT_TOKEN@dev.azure.com/ORGNAME/PROJNAME/_git/helm-charts `
+ origin2=ssh@app1.somehwere.net:22/ORGNAME/PROJNAME/_git/helm-charts `
+ sshhost=app1.somehwere.net `
+ sshkeybase64=xxxxxxx
 ```
 
 ## Helm commands
