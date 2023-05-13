@@ -47,10 +47,10 @@ echo "Switching to branch $branchname..."
 git switch $branchname || { exit 1; }
 
 echo "Pull $branchname from $origin1..."
-git pull origin $branchname || { exit 1; }
+git pull origin $branchname #|| { exit 1; }
 
 echo "Pull $branchname from $origin2..."
-git pull origin2 $branchname || { exit 1; }
+git pull origin2 $branchname #|| { exit 1; }
 
 echo "Push $branchname from $origin1..."
 git push origin $branchname || { exit 1; }
